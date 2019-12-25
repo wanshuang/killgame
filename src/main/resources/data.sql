@@ -1,0 +1,1 @@
+INSERT INTO t_user (account,pwd) VALUES ('ws','ws');

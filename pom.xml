@@ -37,7 +37,6 @@
             </exclusions>
         </dependency>
 
-
         <!-- db spring data  h2 database -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -58,6 +57,17 @@
 
         <!-- db spring data  h2 database -->
 
+        <!-- jsp -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+        </dependency>
+        <!-- jsp -->
 
     </dependencies>
 

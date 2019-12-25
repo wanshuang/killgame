@@ -1,0 +1,35 @@
+server:
+  port: 8080
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+
+  datasource:
+    url: jdbc:h2:mem:h2test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE #配置h2数据库的连接地址
+    platform: h2
+    username: sa
+    password:
+    driverClassName: org.h2.Driver #配置JDBC Driver
+    data: classpath:data.sql
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+  h2:
+    console:
+      enabled: true #网关开关
+      path: /h2 #访问URl
+      settings:
+        trace: false
+        web-allow-others: true #远程访问
+logging:
+  level:
+    root: info
