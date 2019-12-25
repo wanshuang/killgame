@@ -1,4 +1,4 @@
-package com.gzp.killgame;
+package com.gzp.game.killgame;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

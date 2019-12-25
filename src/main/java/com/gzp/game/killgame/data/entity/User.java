@@ -1,4 +1,4 @@
-package com.gzp.killgame.data.entity;
+package com.gzp.game.killgame.data.entity;
 
 import lombok.Data;
 

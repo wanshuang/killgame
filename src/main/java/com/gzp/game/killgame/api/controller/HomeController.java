@@ -1,4 +1,4 @@
-package com.gzp.killgame.api.controller;
+package com.gzp.game.killgame.api.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

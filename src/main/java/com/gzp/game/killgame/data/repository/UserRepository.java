@@ -1,6 +1,6 @@
-package com.gzp.killgame.data.repository;
+package com.gzp.game.killgame.data.repository;
 
-import com.gzp.killgame.data.entity.User;
+import com.gzp.game.killgame.data.entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
