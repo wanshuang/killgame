@@ -1,7 +1,6 @@
 package com.gzp.game.killgame.data.repository;
 
 import com.gzp.game.killgame.data.entity.GameRoom;
-import com.gzp.game.killgame.data.entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,10 +8,11 @@ import java.util.List;
 
 /**
  * @author ws
- * @date 2019/12/25
+ * @date 2019/12/27
  */
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
-    public List<User> findByAccountAndPwd(String account, String pwd);
+public interface GameRoomRepository extends CrudRepository<GameRoom, Integer> {
+
+    public List<GameRoom> findBystatus(GameRoom.Status status);
 
 }

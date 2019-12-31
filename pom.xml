@@ -69,6 +69,28 @@
         </dependency>
         <!-- jsp -->
 
+
+        <!-- util -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.1-jre</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.62</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>4.11.2</version>
+        </dependency>
+
+        <!-- util -->
+
     </dependencies>
 
     <build>

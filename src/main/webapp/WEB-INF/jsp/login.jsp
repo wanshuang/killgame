@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Basic Panel - jQuery EasyUI Demo</title>
+    <title>一切为了人民</title>
     <link rel="stylesheet" type="text/css" href="/jquery/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="/jquery/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="/jquery/demo/demo.css">
@@ -22,7 +22,9 @@
 <div align="center">
     <div class="easyui-panel" title="账号登录" style="width:500px">
         <div style="padding:10px 60px 20px 60px">
-            <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
+            <form id="ff" action="${pageContext.request.contextPath}/login_do"
+                  class="easyui-form" method="post">
+                <div id="message" style="color:#F00;text-align:center" type="text"></div>
                 <table cellpadding="5">
                     <tr>
                         <td>登录:</td>
@@ -81,11 +83,11 @@
                         </td>
                     </tr>
                 </table>
+                <div style="text-align:center;padding:5px">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
+                </div>
             </form>
-            <div style="text-align:center;padding:5px">
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">Submit</a>
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
-            </div>
         </div>
     </div>
 </div>
@@ -94,6 +96,14 @@
         $('#ff').form('submit', {
             onSubmit: function () {
                 return $(this).form('enableValidation').form('validate');
+            }
+            , success: function (data) {
+                var json = jQuery.parseJSON(data);
+                if(json.flag){
+                    $(window).attr('location','${pageContext.request.contextPath}/hall');
+                }else{
+                    $("#message").append(json.message);
+                }
             }
         });
     }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @RequestMapping("/")
-    public String root() {
+    public String home() {
         return "welcome to kill game!";
     }
 }
