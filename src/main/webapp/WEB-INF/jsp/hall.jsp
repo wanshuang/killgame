@@ -38,9 +38,10 @@
                         data: JSON.parse(data.rooms),
                         columns: [[
                             {field: 'id', title: 'id', width: 100},
-                            {field: 'createUserId', title: 'createUserId', width: 100},
-                            {field: 'creationTime', title: 'creationTime', width: 200},
-                            {field: 'status', title: 'status', width: 100}
+                            {field: 'createUserId', title: '创建用户', width: 100},
+                            {field: 'creationTime', title: '创建时间', width: 200},
+                            {field: 'gameType', title: '类型', width: 100},
+                            {field: 'status', title: '状态', width: 100}
                         ]]
                     });
                 }
@@ -57,10 +58,13 @@
 
         function intoRoom() {
             var rows = $('#game_room_dg').datagrid('getSelections');
-            for(var i=0; i<rows.length; i++){
-                var row = rows[i];
-                alert(row.id);
+            if(rows.length > 0){
+                var row = rows[0];
+                $(window).attr('location','${pageContext.request.contextPath}/gameroom/into?id='+row.id);
             }
+            // for(var i=0; i<rows.length; i++){
+            //     var row = rows[i];
+            // }
         }
 
     </script>

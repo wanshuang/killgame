@@ -1,5 +1,6 @@
 package com.gzp.game.killgame.service.room;
 
+import com.gzp.game.killgame.data.GameType;
 import com.gzp.game.killgame.data.entity.GameRoom;
 import com.gzp.game.killgame.data.entity.User;
 import com.gzp.game.killgame.data.repository.GameRoomRepository;
@@ -20,7 +21,7 @@ public class GameRoomService {
     GameRoomRepository gameRoomRepository;
 
     public GameRoom createGameRoom(User user){
-        return gameRoomRepository.save(new GameRoom().setCreateUserId(user.getId()).setCreationTime(new Date()).setStatus(GameRoom.Status.active));
+        return gameRoomRepository.save(new GameRoom().setCreateUserId(user.getId()).setCreationTime(new Date()).setStatus(GameRoom.Status.active).setGameType(GameType.CHAT));
     }
 
     public List<GameRoom> getAllActive(){

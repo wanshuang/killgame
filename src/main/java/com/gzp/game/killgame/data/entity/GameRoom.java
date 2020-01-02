@@ -1,5 +1,6 @@
 package com.gzp.game.killgame.data.entity;
 
+import com.gzp.game.killgame.data.GameType;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -26,6 +27,9 @@ public class GameRoom {
     private Long createUserId;
 
     private Date creationTime;
+
+    @Enumerated(EnumType.STRING)
+    private GameType gameType;
 
     public enum Status {
         active,

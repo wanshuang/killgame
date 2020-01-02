@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author ws
@@ -19,20 +20,34 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String content;
+
+    @Enumerated(EnumType.STRING)
+    private ContentType contentType;
+
+    @Enumerated(EnumType.STRING)
     private MessageType messageType;
 
+    @Enumerated(EnumType.STRING)
     private ShowType showType;
 
-    private Long creationTime;
+    private Date creationTime;
 
     private Long userId;
 
-    public enum MessageType{
+    private Long roomId;
+
+    public enum ContentType {
+        text,
+        emoji
+    }
+
+    public enum MessageType {
         chat,
         notice
     }
 
-    public enum ShowType{
+    public enum ShowType {
         all
     }
 
