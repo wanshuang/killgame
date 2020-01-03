@@ -34,7 +34,22 @@ public class MessageService {
 
     public List<Message> getAllMessage(Long roomId, Long userId) {
         List<Message> messages = Lists.newArrayList(messageRepository.findByRoomId(roomId));
+        this.packageMessages(messages);
+        return messages;
+    }
 
+    public List<Message> getNewMessage(Long roomId, Long userId, Long lastId) {
+        List<Message> messages = Lists.newArrayList(messageRepository.findByIdGreaterThanAndRoomId(lastId, roomId));
+        this.packageMessages(messages);
+        return messages;
+    }
+
+    public Long getMaxMessage(Long roomId, Long userId, Long lastId){
+
+        return 0l;
+    }
+
+    private void packageMessages(List<Message> messages) {
         //封装useraccount用
         Map<Long, User> uMap = Maps.uniqueIndex(userRepository.findAll(), new Function<User, Long>() {
 
@@ -49,9 +64,7 @@ public class MessageService {
             if (uMap.get(message.getUserId()) != null) {
                 message.setUserAccount(uMap.get(message.getUserId()).getAccount());
             }
-
         });
-        return messages;
     }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -42,14 +43,43 @@ public class ChatController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/message/getAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/message/getAll", method = RequestMethod.POST)
     public JSONObject getAllMessage(HttpServletRequest request,
                                     @RequestParam(value = "roomId") Long roomId) {
         List<Message> messages = messageService.getAllMessage(roomId, WebUtils.getUser(request).getId());
+        Long lastId = 0l;
+        if(messages != null && messages.size() > 0){
+            lastId = Collections.max(messages, (o1,o2) -> {
+               return ((o1.getId() < o2.getId()) ? -1 : (o1.getId() < o2.getId() ? 0 : 1));
+            }).getId();
+        }
         JSONObject result = new JSONObject();
         JSONArray array = new JSONArray();
         array.addAll(messages);
         result.put("messages", array.toJSONString());
+        result.put("lastId", lastId);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/message/getLast", method = RequestMethod.POST)
+    public JSONObject getByLastId(HttpServletRequest request,
+                                  @RequestParam(value = "roomId") Long roomId,
+                                  @RequestParam(value = "lastId") Long messageId) {
+        List<Message> messages = messageService.getNewMessage(roomId, WebUtils.getUser(request).getId(), messageId);
+        Long lastId = 0l;
+        if(messages != null && messages.size() > 0){
+            lastId = Collections.max(messages, (o1,o2) -> {
+                return ((o1.getId() < o2.getId()) ? -1 : (o1.getId() < o2.getId() ? 0 : 1));
+            }).getId();
+        }else{
+            lastId = messageId;
+        }
+        JSONObject result = new JSONObject();
+        JSONArray array = new JSONArray();
+        array.addAll(messages);
+        result.put("messages", array.toJSONString());
+        result.put("lastId", lastId);
         return result;
     }
 

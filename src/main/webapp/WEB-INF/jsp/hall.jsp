@@ -74,7 +74,7 @@
 <div class="easyui-tabs" style="text-align:center;margin:1px auto;width:700px;height:500px">
     <div title="游戏大厅" style="padding:10px">
         <table id="game_room_dg" class="easyui-datagrid" title="当前在线用户" style="width:650px;height:450px"
-               data-options="iconCls: 'icon-edit',toolbar: '#game_room_tb',singleSelect:true">
+               data-options="iconCls: 'icon-edit',toolbar: '#game_room_tb',singleSelect:true ,selected:true">
 
         </table>
 
@@ -88,7 +88,7 @@
         </div>
 
     </div>
-    <div title="个人信息" style="padding:10px" data-options="iconCls:'icon-man',selected:true">
+    <div title="个人信息" style="padding:10px" data-options="iconCls:'icon-man'">
         <div class="easyui-accordion" style="width:500px;height:300px;">
             <div title="个人资料" data-options="iconCls:'icon-man',selected:true" style="overflow:auto;padding:10px;">
                 <h3 style="color:#0099FF;">

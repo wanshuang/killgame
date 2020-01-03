@@ -5,7 +5,7 @@
   var pos=curWwwPath.indexOf(pathName);
   var localhostPaht=curWwwPath.substring(0,pos);
 
-  var roomId;
+
 
   var chat = {
     messageToSend : '',
@@ -20,7 +20,7 @@
     init: function() {
       this.cacheDOM();
       this.bindEvents();
-      this.loadMessage();
+      this.getHistory();
       this.render();
     },
     cacheDOM: function() {
@@ -37,7 +37,7 @@
       this.scrollToBottom();
       if (this.messageToSend.trim() !== '') {
         var template = Handlebars.compile( $("#message-template").html());
-        var context = { 
+        var context = {
           messageOutput: this.messageToSend,
           time: this.getCurrentTime()
         };
@@ -45,10 +45,10 @@
         this.$chatHistoryList.append(template(context));
         this.scrollToBottom();
         this.$textarea.val('');
-        
+
         // responses
         var templateResponse = Handlebars.compile( $("#message-response-template").html());
-        var contextResponse = { 
+        var contextResponse = {
           response: this.getRandomItem(this.messageResponses),
           time: this.getCurrentTime()
         };
@@ -57,16 +57,17 @@
           this.$chatHistoryList.append(templateResponse(contextResponse));
           this.scrollToBottom();
         }.bind(this), 1500);
-        
+
       }
-      
+
     },
-    loadMessage: function() {
-      this.roomId = $("#roomId").val();
-      $.get(localhostPaht+"/chat/message/getAll", { roomId: "1" }, function (data, status) {
+    getHistory: function() {
+      var roomId = $('#roomId').val();
+      $.post(localhostPaht+"/chat/message/getAll", { roomId: roomId }, function (data, status) {
         if (status == "success") {
           //对内容进行处理
           var messages = JSON.parse(data.messages);
+          $('#lastId').val(data.lastId);
           for(var index=0;index<messages.length;index++){
             var message = messages[index];
             var templateMe = Handlebars.compile( $("#message-template").html());
@@ -76,14 +77,18 @@
               time: message.creationTime,
               account: message.userAccount
             };
-            $('.chat-history').find('ul').append(templateOther(context));
+            if(message.userId == $('#userId').val()){
+              $('.chat-history').find('ul').append(templateMe(context));
+            }else{
+              $('.chat-history').find('ul').append(templateOther(context));
+            }
             $('.chat-history').scrollTop($('.chat-history')[0].scrollHeight);
             $('#message-content').val('');
           }
         }
       });
     },
-    
+
     addMessage: function() {
       this.messageToSend = $("#message-content").val();
       if(this.messageToSend.trim() == ""){
@@ -101,6 +106,7 @@
           $('.chat-history').find('ul').append(template(context));
           $('.chat-history').scrollTop($('.chat-history')[0].scrollHeight);
           $('#message-content').val('');
+          $("#lastId").val(message.id);
         }
       });
     },
@@ -120,17 +126,17 @@
     getRandomItem: function(arr) {
       return arr[Math.floor(Math.random()*arr.length)];
     }
-    
+
   };
-  
+
   chat.init();
-  
+
   var searchFilter = {
     options: { valueNames: ['name'] },
     init: function() {
       var userList = new List('people-list', this.options);
       var noItems = $('<li id="no-items-found">No items found</li>');
-      
+
       userList.on('updated', function(list) {
         if (list.matchingItems.length === 0) {
           $(list.list).append(noItems);
@@ -140,7 +146,7 @@
       });
     }
   };
-  
+
   searchFilter.init();
-  
+
 })();
