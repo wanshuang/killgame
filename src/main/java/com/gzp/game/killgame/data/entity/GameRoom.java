@@ -1,5 +1,6 @@
 package com.gzp.game.killgame.data.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.gzp.game.killgame.data.GameType;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -26,6 +27,7 @@ public class GameRoom {
 
     private Long createUserId;
 
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date creationTime;
 
     @Enumerated(EnumType.STRING)

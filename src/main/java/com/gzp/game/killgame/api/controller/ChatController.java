@@ -1,10 +1,12 @@
 package com.gzp.game.killgame.api.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
 import com.gzp.game.killgame.data.entity.Message;
-import com.gzp.game.killgame.data.repository.MessageRepository;
+import com.gzp.game.killgame.data.entity.User;
+import com.gzp.game.killgame.service.play.MessageService;
+import com.gzp.game.killgame.util.web.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,29 +27,28 @@ import java.util.List;
 public class ChatController {
 
     @Autowired
-    MessageRepository messageRepository;
+    MessageService messageService;
 
     @ResponseBody
-    @RequestMapping(value = "/message/publish", method = RequestMethod.GET)
+    @RequestMapping(value = "/message/publish", method = RequestMethod.POST)
     public JSONObject createMessage(HttpServletRequest request,
-                                    @RequestParam(value = "content") String content) {
-
-        Message message = messageRepository.save(new Message().setCreationTime(new Date()).setContentType(Message.ContentType.text).setContent(content).setMessageType(Message.MessageType.chat).setShowType(Message.ShowType.all));
+                                    @RequestParam(value = "content") String content,
+                                    @RequestParam(value = "roomId") Long roomId) {
+        User user = WebUtils.getUser(request);
+        Message message = messageService.createMessage(new Message().setCreationTime(new Date()).setContentType(Message.ContentType.text).setContent(content).setMessageType(Message.MessageType.chat).setShowType(Message.ShowType.all).setRoomId(roomId).setUserId(user.getId()).setUserAccount(user.getAccount()));
         JSONObject result = new JSONObject();
-        result.put("messages", message);
+        result.put("message", JSON.toJSONString(message));
         return result;
     }
 
     @ResponseBody
     @RequestMapping(value = "/message/getAll", method = RequestMethod.GET)
-    public JSONObject getAllMessage(HttpServletRequest request) {
-        List<Message> messages = Lists.newArrayList(messageRepository.findAll());
-
+    public JSONObject getAllMessage(HttpServletRequest request,
+                                    @RequestParam(value = "roomId") Long roomId) {
+        List<Message> messages = messageService.getAllMessage(roomId, WebUtils.getUser(request).getId());
         JSONObject result = new JSONObject();
         JSONArray array = new JSONArray();
-        for (Message message : messages) {
-            array.add(message);
-        }
+        array.addAll(messages);
         result.put("messages", array.toJSONString());
         return result;
     }

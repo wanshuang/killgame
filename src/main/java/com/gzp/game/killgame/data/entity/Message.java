@@ -1,5 +1,6 @@
 package com.gzp.game.killgame.data.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -31,11 +32,15 @@ public class Message {
     @Enumerated(EnumType.STRING)
     private ShowType showType;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date creationTime;
 
     private Long userId;
 
     private Long roomId;
+
+    @Transient
+    private String userAccount;
 
     public enum ContentType {
         text,

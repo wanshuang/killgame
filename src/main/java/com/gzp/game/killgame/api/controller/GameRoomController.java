@@ -42,9 +42,7 @@ public class GameRoomController {
         List<GameRoom> rooms = gameRoomService.getAllActive();
         JSONObject result = new JSONObject();
         JSONArray array = new JSONArray();
-        for (GameRoom room : rooms){
-            array.add(room);
-        }
+        array.addAll(rooms);
         result.put("rooms", array.toJSONString());
         return result;
     }
