@@ -9,35 +9,33 @@ import java.util.Date;
 
 /**
  * @author ws
- * @date 2019/12/27
+ * @date 2020/1/6
  */
 @Entity
-@Table(name = "t_game_room")
+@Table(name = "t_scope_user")
 @Accessors(chain = true)
 @Data
-public class GameRoom {
+public class ScopeUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    private Long roomId;
 
-    private Long createUserId;
+    private Long userId;
 
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date creationTime;
 
-    private Long gameTypeId;
+    private Long scopeUserId;
 
-    @Transient
-    private String gameName;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public enum Status {
         active,
-        start,
-        hold,
-        close
+        invalid
     }
+
 }

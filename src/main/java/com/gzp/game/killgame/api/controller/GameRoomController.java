@@ -53,7 +53,7 @@ public class GameRoomController {
             HttpServletRequest request,
             @RequestParam(value = "id") String id) {
         ModelAndView mav = new ModelAndView("room");
-        mav.addObject("userId",WebUtils.getUser(request).getId());
+        mav.addObject("userId", WebUtils.getUser(request).getId());
         mav.addObject("roomId", id);
         return mav;
     }

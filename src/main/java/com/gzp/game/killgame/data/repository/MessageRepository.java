@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends CrudRepository<Message, Integer> {
 
-    public List<Message> findByRoomId(Long roomId);
+    List<Message> findByRoomId(Long roomId);
 
-    public List<Message> findByIdGreaterThanAndRoomId(Long Id,Long roomId);
+    List<Message> findByIdGreaterThanAndRoomId(Long Id, Long roomId);
 
 }

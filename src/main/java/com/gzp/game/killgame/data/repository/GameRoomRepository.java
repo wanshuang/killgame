@@ -11,8 +11,8 @@ import java.util.List;
  * @date 2019/12/27
  */
 @Repository
-public interface GameRoomRepository extends CrudRepository<GameRoom, Integer> {
+public interface GameRoomRepository extends CrudRepository<GameRoom, Long> {
 
-    public List<GameRoom> findBystatus(GameRoom.Status status);
+    List<GameRoom> findBystatus(GameRoom.Status status);
 
 }

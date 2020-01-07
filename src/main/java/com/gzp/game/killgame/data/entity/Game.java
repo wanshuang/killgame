@@ -9,35 +9,35 @@ import java.util.Date;
 
 /**
  * @author ws
- * @date 2019/12/27
+ * @date 2020/1/6
  */
 @Entity
-@Table(name = "t_game_room")
+@Table(name = "t_game")
 @Accessors(chain = true)
 @Data
-public class GameRoom {
+public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    private Long gameTypeId;
 
     private Long createUserId;
 
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date creationTime;
 
-    private Long gameTypeId;
+    @Enumerated(EnumType.STRING)
+    private GameStatus gameStatus;
 
-    @Transient
-    private String gameName;
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    private Date endTime;
 
-    public enum Status {
-        active,
+    public enum GameStatus {
+        wait,
+        ready,
         start,
-        hold,
-        close
+        end
     }
 }

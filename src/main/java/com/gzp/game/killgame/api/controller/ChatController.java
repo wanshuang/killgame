@@ -48,9 +48,9 @@ public class ChatController {
                                     @RequestParam(value = "roomId") Long roomId) {
         List<Message> messages = messageService.getAllMessage(roomId, WebUtils.getUser(request).getId());
         Long lastId = 0l;
-        if(messages != null && messages.size() > 0){
-            lastId = Collections.max(messages, (o1,o2) -> {
-               return ((o1.getId() < o2.getId()) ? -1 : (o1.getId() < o2.getId() ? 0 : 1));
+        if (messages != null && messages.size() > 0) {
+            lastId = Collections.max(messages, (o1, o2) -> {
+                return ((o1.getId() < o2.getId()) ? -1 : (o1.getId() < o2.getId() ? 0 : 1));
             }).getId();
         }
         JSONObject result = new JSONObject();
@@ -67,12 +67,12 @@ public class ChatController {
                                   @RequestParam(value = "roomId") Long roomId,
                                   @RequestParam(value = "lastId") Long messageId) {
         List<Message> messages = messageService.getNewMessage(roomId, WebUtils.getUser(request).getId(), messageId);
-        Long lastId = 0l;
-        if(messages != null && messages.size() > 0){
-            lastId = Collections.max(messages, (o1,o2) -> {
+        Long lastId;
+        if (messages != null && messages.size() > 0) {
+            lastId = Collections.max(messages, (o1, o2) -> {
                 return ((o1.getId() < o2.getId()) ? -1 : (o1.getId() < o2.getId() ? 0 : 1));
             }).getId();
-        }else{
+        } else {
             lastId = messageId;
         }
         JSONObject result = new JSONObject();

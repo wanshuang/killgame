@@ -44,11 +44,6 @@ public class MessageService {
         return messages;
     }
 
-    public Long getMaxMessage(Long roomId, Long userId, Long lastId){
-
-        return 0l;
-    }
-
     private void packageMessages(List<Message> messages) {
         //封装useraccount用
         Map<Long, User> uMap = Maps.uniqueIndex(userRepository.findAll(), new Function<User, Long>() {
