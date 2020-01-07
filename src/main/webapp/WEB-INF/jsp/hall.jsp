@@ -38,7 +38,7 @@
                         data: JSON.parse(data.rooms),
                         columns: [[
                             {field: 'id', title: 'id', width: 100},
-                            {field: 'createUserId', title: '创建用户', width: 100},
+                            {field: 'userName', title: '创建用户', width: 100},
                             {field: 'creationTime', title: '创建时间', width: 200},
                             {field: 'gameName', title: '类型', width: 100},
                             {field: 'status', title: '状态', width: 100}

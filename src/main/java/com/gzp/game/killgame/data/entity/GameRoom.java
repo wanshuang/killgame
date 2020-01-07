@@ -26,6 +26,9 @@ public class GameRoom {
 
     private Long createUserId;
 
+    @Transient
+    private String userName;
+
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date creationTime;
 

@@ -7,6 +7,7 @@ import com.gzp.game.killgame.data.entity.GameType;
 import com.gzp.game.killgame.data.entity.User;
 import com.gzp.game.killgame.data.repository.GameRoomRepository;
 import com.gzp.game.killgame.data.repository.GameTypeRepository;
+import com.gzp.game.killgame.data.repository.UserRepository;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class GameRoomService {
     @Autowired
     GameTypeRepository gameTypeRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     public GameRoom createGameRoom(User user) {
         GameType gameType = gameTypeRepository.findById(1l).get();
         return gameRoomRepository.save(new GameRoom().setCreateUserId(user.getId()).setCreationTime(new Date()).setStatus(GameRoom.Status.active).setGameTypeId(gameType.getId()));
@@ -35,15 +39,26 @@ public class GameRoomService {
 
     public List<GameRoom> getAllActive() {
         List<GameRoom> rooms = gameRoomRepository.findBystatus(GameRoom.Status.active);
-        Map<Long, GameType> maps = Maps.uniqueIndex(gameTypeRepository.findAll(), new Function<GameType, Long>() {
+        Map<Long, GameType> gtMap = Maps.uniqueIndex(gameTypeRepository.findAll(), new Function<GameType, Long>() {
             @Nullable
             @Override
             public Long apply(@Nullable GameType gameType) {
                 return gameType.getId();
             }
         });
+
+        Map<Long, User> uMap = Maps.uniqueIndex(userRepository.findAll(), new Function<User, Long>() {
+
+            @Nullable
+            @Override
+            public Long apply(@Nullable User user) {
+                return user.getId();
+            }
+        });
+
         rooms.forEach(room -> {
-            room.setGameName(maps.get(room.getGameTypeId()).getName());
+            room.setGameName(gtMap.get(room.getGameTypeId()).getName());
+            room.setUserName(uMap.get(room.getCreateUserId()).getAccount());
         });
 
         return rooms;
