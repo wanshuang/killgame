@@ -32,9 +32,13 @@ public class GameRoomService {
     @Autowired
     UserRepository userRepository;
 
-    public GameRoom createGameRoom(User user) {
-        GameType gameType = gameTypeRepository.findById(1l).get();
+    public GameRoom createGameRoom(User user,Long typeId) {
+        GameType gameType = gameTypeRepository.findById(typeId).get();
         return gameRoomRepository.save(new GameRoom().setCreateUserId(user.getId()).setCreationTime(new Date()).setStatus(GameRoom.Status.active).setGameTypeId(gameType.getId()));
+    }
+
+    public GameRoom getById(Long id){
+        return gameRoomRepository.findById(id).get();
     }
 
     public List<GameRoom> getAllActive() {

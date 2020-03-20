@@ -22,6 +22,7 @@
     </style>
     <script>
         $(function () {
+            gameTypeClose();
             $.get("${pageContext.request.contextPath}/user/info", function (data, status) {
                 var user = jQuery.parseJSON(data.user);
                 if (status == "success") {
@@ -48,19 +49,31 @@
             });
         }
 
+        function gameTypeOpen() {
+            $('#game_type_choose').dialog('open');
+        }
+
+        function gameTypeClose() {
+            $('#game_type_choose').dialog('close');
+        }
+
         function createRoom() {
-            $.get("${pageContext.request.contextPath}/gameroom/create", function (data, status) {
-                if (status == "success") {
-                    refresh();
-                }
-            });
+            var typeId = $("#game_type_select").find("option:selected").val()
+            if(typeId != null){
+                $.post("${pageContext.request.contextPath}/gameroom/create", {typeId: typeId}, function (data, status) {
+                    if (status == "success") {
+                        gameTypeClose();
+                        refresh();
+                    }
+                });
+            }
         }
 
         function intoRoom() {
             var rows = $('#game_room_dg').datagrid('getSelections');
-            if(rows.length > 0){
+            if (rows.length > 0) {
                 var row = rows[0];
-                $(window).attr('location','${pageContext.request.contextPath}/gameroom/into?id='+row.id);
+                $(window).attr('location', '${pageContext.request.contextPath}/gameroom/into?id=' + row.id);
             }
             // for(var i=0; i<rows.length; i++){
             //     var row = rows[i];
@@ -80,7 +93,7 @@
 
         <div id="game_room_tb" style="height:auto">
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true"
-               onclick="createRoom()">创建房间</a>
+               onclick="gameTypeOpen()">创建房间</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true"
                onclick="intoRoom()">进入房间</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true"
@@ -113,6 +126,16 @@
     <div title="帮助" data-options="iconCls:'icon-help',closable:true" style="padding:10px">
         功能施工中...<br>
         版权归国家所有
+    </div>
+</div>
+<div id="game_type_choose" class="easyui-dialog" title="选择房间类型" data-options="iconCls:'icon-add'" style="width:400px;height:100px;padding:10px">
+    <div style="padding:10px">
+        <select class="easyui-combobox" id="game_type_select" style="width:200px;">
+            <option value="1">聊天室</option>
+            <option value="2">杀人游戏</option>
+        </select>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="createRoom()">Submit</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="gameTypeClose()">Close</a>
     </div>
 </div>
 </body>

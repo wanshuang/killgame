@@ -28,9 +28,10 @@ public class GameRoomController {
     GameRoomService gameRoomService;
 
     @ResponseBody
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public JSONObject createGameRoom(HttpServletRequest request) {
-        GameRoom room = gameRoomService.createGameRoom(WebUtils.getUser(request));
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public JSONObject createGameRoom(HttpServletRequest request,
+                                     @RequestParam(value = "typeId") Long typeId) {
+        GameRoom room = gameRoomService.createGameRoom(WebUtils.getUser(request),typeId);
         JSONObject result = new JSONObject();
         return result;
     }
@@ -51,8 +52,17 @@ public class GameRoomController {
     @RequestMapping(value = "/into", method = RequestMethod.GET)
     public ModelAndView intoRoom(
             HttpServletRequest request,
-            @RequestParam(value = "id") String id) {
-        ModelAndView mav = new ModelAndView("room");
+            @RequestParam(value = "id") Long id) {
+        GameRoom gameRoom = gameRoomService.getById(id);
+        if(gameRoom == null){
+           return null;
+        }
+        ModelAndView mav = new ModelAndView();
+        if(gameRoom.getGameTypeId() == 1){
+            mav.setViewName("room_chat");
+        }else{
+            mav.setViewName("room_killgame");
+        }
         mav.addObject("userId", WebUtils.getUser(request).getId());
         mav.addObject("roomId", id);
         return mav;

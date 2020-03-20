@@ -48,6 +48,8 @@ public class Message {
     }
 
     public enum MessageType {
+        join,
+        leave,
         chat,
         notice
     }

@@ -28,11 +28,8 @@
 
     <div data-options="region:'west',split:true" title="可隐藏" style="width:150px;">
         <div class="easyui-accordion" data-options="fit:true,border:false">
-            <div title="当前用户" style="padding:10px;">
+            <div title="当前用户"　data-options="selected:true" style="padding:10px;">
                 当前用户
-            </div>
-            <div title="身份信息" data-options="selected:true" style="padding:10px;">
-                身份信息
             </div>
             <div title="帮助" style="padding:10px">
                 帮助
@@ -231,7 +228,7 @@
                 options: {valueNames: ['name']},
                 init: function () {
                     var userList = new List('people-list', this.options);
-                    var noItems = $('<li id="no-items-found">No items found</li>');
+                    var noItems = $('<li id="no-itemmessages-found">No items found</li>');
 
                     userList.on('updated', function (list) {
                         if (list.matchingItems.length === 0) {
@@ -249,6 +246,18 @@
     </script>
 
     <script type="text/javascript" >
+        (function () {
+            var socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, onConnected, onError);
+            var subName = '/topic/public/' + ${roomId};
+            stompClient.subscribe(subName, onMessageReceived);
+        })();
+    </script>
+
+    <script type="text/javascript" >
+
         function loadMessage() {
             var lastId = $("#lastId").val();
             if(lastId == 0){
